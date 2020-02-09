@@ -42,7 +42,7 @@ export const newModelData = async function (dataModel: DataModel, query: Query) 
       method: 'GET'
     };
   
-    const req = https.request(options, async (req) => {
+    const req = https.request(options, (req) => {
       console.log(`statusCode: ${req.statusCode}`);
  
       req.on('data', rawData => {
@@ -54,6 +54,7 @@ export const newModelData = async function (dataModel: DataModel, query: Query) 
         if (!type || isList) {
           // request was for a list
           resolve(body);
+          return;
         }
     
         // request was for a page of images
