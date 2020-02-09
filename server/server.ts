@@ -3,38 +3,40 @@ import url from 'url';
 
 const PORT = 3000;
 
-import { handleRequest } from './routes/all';
+import { handleRequest } from './routes/clientRequest';
+import { newModelData, Query } from './routes/newModelData';
 import DataModel from './dataModel';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
+  console.log(typeof req);
   const parts = url.parse(req.url, true);
+  const query: Query = parts.query;
 
   const dataModel = new DataModel();
-  // console.log(parts.query);
 
-  const { type } = parts.query;
-
-  // If user passes in a new type
-  if ( type && type !== dataModel.currentType) {
-    console.log(`TYPE ${type}`);
-    dataModel.updateType(type);
-  } else {
-    console.log('NO TYPE');
+  if (query) {
+    const result = await newModelData(dataModel, query);
+    console.log(result, '<<<<<');
   }
 
-
   req.on('error', err => {
-
+    console.warn(err);
   })
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   .on('data', (chunck: any) => {
+    console.log('BODY');
     const body = [];
-    const postData = '{"login":"toto","password":"okay","duration":"9999"}';
-    body.push(postData);
+    console.log(chunck.toString());
+    body.push(chunck);
   })
   .on('end', () => {
-    handleRequest(req, res);
+    console.log('END');
+    handleRequest(req, res, dataModel);
   });
 
 })
 .listen(PORT);
+
+console.log(`server running on ${PORT}`);

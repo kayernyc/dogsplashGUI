@@ -1,6 +1,7 @@
 interface DataModel {
   currentType: string | string[];
   currentPage: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   currentData: any;
 }
 
@@ -15,8 +16,12 @@ class DataModel implements DataModel {
     this.currentType = type;
     this.currentPage = page;
   }
-  updateData = (data: any) => {
+  updateData = (data: any, page = 0) => {
+    console.log(`From dataModel ${data} at page ${page}`);
     this.currentData = data;
+  }
+  updatePage = (page: number) => {
+    return `update page ${page}`;
   }
 };
 

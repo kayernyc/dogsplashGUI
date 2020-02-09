@@ -1,4 +1,5 @@
-import http from 'http';
+import  { IncomingMessage, ServerResponse } from 'http';
+import DataModel from '../dataModel';
 
 const json = [
   {
@@ -52,14 +53,10 @@ const json = [
   }
 ];
 
-
-export const handleRequest = function(req: any, res: any) {
+export const handleRequest = function(req: IncomingMessage, res: ServerResponse, dataModel: DataModel) {
   const { headers, method, url }  = req;
+  console.log();
   const body = JSON.stringify(json);
-
-  // res.on('error', err => {
-  //   console.warn(err);
-  // });
 
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
@@ -71,7 +68,7 @@ export const handleRequest = function(req: any, res: any) {
 
   // Set to true if you need the website to include cookies in the requests sent
   // to the API (e.g. in case you use sessions)
-  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
 
   const responseBody = {headers, method, url, body};
 
@@ -79,4 +76,3 @@ export const handleRequest = function(req: any, res: any) {
   res.end(body);
   return;
 };
-
