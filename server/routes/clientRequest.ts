@@ -53,10 +53,10 @@ const json = [
   }
 ];
 
-export const handleRequest = function(req: IncomingMessage, res: ServerResponse, dataModel: DataModel) {
+export const handleRequest = function(req: IncomingMessage, res: ServerResponse, data: any) {
   const { headers, method, url }  = req;
-  console.log();
-  const body = JSON.stringify(json);
+  console.log(`what is my data : ${data}`);
+  // const body = JSON.stringify(json);
 
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
@@ -69,10 +69,9 @@ export const handleRequest = function(req: IncomingMessage, res: ServerResponse,
   // Set to true if you need the website to include cookies in the requests sent
   // to the API (e.g. in case you use sessions)
   res.setHeader('Access-Control-Allow-Credentials', 'true');
-
-  const responseBody = {headers, method, url, body};
+  const responseBody = {headers, method, url, data};
 
   res.write(JSON.stringify(responseBody));
-  res.end(body);
+  res.end();
   return;
 };

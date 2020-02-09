@@ -9,31 +9,37 @@ import DataModel from './dataModel';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const server = http.createServer(async (req, res) => {
-  console.log(typeof req);
   const parts = url.parse(req.url, true);
   const query: Query = parts.query;
 
   const dataModel = new DataModel();
+  let result: string;
+  let body: Array<any>;
 
   if (query) {
-    const result = await newModelData(dataModel, query);
-    console.log(result, '<<<<<');
+    const pagedResults = await newModelData(dataModel, query);
+    result = JSON.stringify(pagedResults);
   }
 
   req.on('error', err => {
     console.warn(err);
   })
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   .on('data', (chunck: any) => {
-    console.log('BODY');
     const body = [];
-    console.log(chunck.toString());
     body.push(chunck);
   })
   .on('end', () => {
-    console.log('END');
-    handleRequest(req, res, dataModel);
+    let data: string;
+    
+    if (result !== undefined) {
+      console.log('result', result);
+      data = result;
+    } else {
+      data = body.toString();
+    }
+
+    handleRequest(req, res, data);
   });
 
 })

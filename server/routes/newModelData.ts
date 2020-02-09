@@ -1,4 +1,3 @@
-import  { IncomingMessage, ServerResponse } from 'http';
 import https from 'https';
 import DataModel from '../dataModel';
 

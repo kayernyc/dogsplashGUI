@@ -1,7 +1,5 @@
-console.log("here");
-
 const callAPIforData = () => {
-  fetch('http://localhost:3000', {
+  fetch('http://localhost:3000/dogs?type=hound', {
     method: 'GET',
     headers: new Headers(
       {
