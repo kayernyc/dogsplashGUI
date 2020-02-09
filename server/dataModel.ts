@@ -30,9 +30,20 @@ class DataModel implements DataModel {
   updatePage = (page: number) => {
     // is page number in range?
     page = Math.min(page, this.currentMaxPage);
+    let nextPage: number;
+    let prevPage: number;
+
+    if (page < this.currentMaxPage) {
+      nextPage = page + 1;
+    }
+
+    if (page > 0) {
+      prevPage = page -1;
+    }
+
     const offset = page * NUM_ITEMS_ON_PAGE;
     const pageItems = this.currentData.slice(offset, offset + NUM_ITEMS_ON_PAGE);
-    return pageItems;
+    return {nextPage, pageItems, prevPage};
   }
 };
 
