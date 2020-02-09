@@ -1,0 +1,28 @@
+{
+  "name": "upsplash-gui",
+  "private": true,
+  "version": "1.0.0",
+  "main": "src/index.html",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@types/node": "^13.7.0",
+    "@typescript-eslint/eslint-plugin": "^2.19.0",
+    "@typescript-eslint/parser": "^2.19.0",
+    "eslint": "^6.8.0",
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.25.0",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.8.3"
+  },
+  "scripts": {
+    "build-ts": "tsc -p ./server",
+    "lint": "eslint \"**/*.{js,ts}\" --quiet --fix",
+    "start:server": "node server/bin/www/server.js",
+    "start": "parcel src/index.html"
+  }
+}
