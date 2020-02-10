@@ -13,12 +13,12 @@ const server = http.createServer(async (req, res) => {
   const query: Query = parts.query;
 
   const dataModel = new DataModel();
-  let result: string;
+  let result: any;
   let body: Array<any>;
 
   if (query) {
     const pagedResults = await newModelData(dataModel, query);
-    result = JSON.stringify(pagedResults);
+    result = pagedResults;
   }
 
   req.on('error', err => {
@@ -33,7 +33,6 @@ const server = http.createServer(async (req, res) => {
     let data: string;
     
     if (result !== undefined) {
-      console.log('result', result);
       data = result;
     } else {
       data = body.toString();
