@@ -22,10 +22,8 @@ export const newModelData = async function (dataModel: DataModel, query: Query) 
     // /breeds/list/all
     // /breed/{type}/images
     // /breed/{type}/list
-
     if (page && (!type || (type && type === dataModel.currentType))) {
       // don't update data, just return new page
-      console.log('update page');
       resolve(dataModel.updatePage(page));
     }
   
@@ -41,9 +39,7 @@ export const newModelData = async function (dataModel: DataModel, query: Query) 
       method: 'GET'
     };
   
-    const req = https.request(options, (req) => {
-      console.log(`statusCode: ${req.statusCode}`);
- 
+    const req = https.request(options, (req) => { 
       req.on('data', rawData => {
         const data = rawData.toString();
         body += data;        

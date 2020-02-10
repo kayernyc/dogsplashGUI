@@ -6,13 +6,13 @@ const PORT = 3000;
 import { handleRequest } from './routes/clientRequest';
 import { newModelData, Query } from './routes/newModelData';
 import DataModel from './dataModel';
+const dataModel = new DataModel();
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const server = http.createServer(async (req, res) => {
   const parts = url.parse(req.url, true);
   const query: Query = parts.query;
 
-  const dataModel = new DataModel();
   let result: any;
   let body: Array<any>;
 

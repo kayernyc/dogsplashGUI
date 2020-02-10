@@ -6,7 +6,7 @@ interface DataModel {
   currentMaxPage: number;
 }
 
-const NUM_ITEMS_ON_PAGE = 10
+const NUM_ITEMS_ON_PAGE = 10;
 
 class DataModel implements DataModel {
   currentType: string | string[] = '';
@@ -15,14 +15,13 @@ class DataModel implements DataModel {
   currentMaxPage = 0;
 
   updateType = (type: string | string[]) => {
-    console.log('this', this.currentType);
     this.currentType = type;
   }
 
   updateData = (data: any, page = 0) => {
     data = JSON.parse(data);
     this.currentData = data.message;
-    this.currentMaxPage = Math.floor(this.currentData.length / 10);
+    this.currentMaxPage = Math.floor(this.currentData.length / 10) - 1;
 
     return (this.updatePage(page));
   }
