@@ -1,8 +1,39 @@
 body {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
   padding: 0;
   position: relative;
-
 }
+
+.dog-navigation > div {
+  text-align: center;
+}
+
+.drop-down-zone {
+  padding-bottom: 2em;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-thirds {
+  flex-grow: 1;
+  width: 30%;
+}
+
+.col {
+  flex-grow: 1;
+  padding: 2em;
+  width: 25%;
+
+  & img {
+    width: 100%;
+    max-width: 100px;
+  }
+}
+
 .modal.open {
   align-items: center;
   background-color: rgba(66,66,66,0.7);
@@ -15,24 +46,27 @@ body {
   width: 100%;
 }
 
-section.dog-thumbnails {
-  display: flex;
-  flex-wrap: wrap;
+@media (max-width: 500px) {
+  .dog-navigation.flex-container {
+    flex-direction: column;
+    align-items: center;
 
-  & .col {
-    flex-grow: 1;
-    padding: 2em;
-    width: 25%;
+    & .col-thirds {
+      width: 90%;
+    }
 
-    & img {
-      width: 100%;
-      max-width: 100px;
+    & button.col-thirds {
+      max-width: 8em;
+    }
+
+    & > * {
+      margin: 0.5em 0;
     }
   }
 }
 
 @media (min-width: 600px) {
-  section.dog-thumbnails .col {
+  .dog-thumbnails .col {
     width: 10%;
   }
 }
