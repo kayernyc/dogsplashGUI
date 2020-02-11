@@ -5,20 +5,28 @@ type QueryObject = {
 class DogModel {
   static API_BASE_URL = 'http://localhost:3000/';
 
-  static constructQuery = (base: string, query: QueryObject) => {
-    const keyMap = Object.keys(query) as Array<string>;
-    return keyMap.reduce((acc: string, key: string, index: number)=> {
-      acc += `${key}=${query[key]}`;
+  static constructQuery = (base: string, query?: QueryObject) => {
+    if (query) {
+      const keyMap = Object.keys(query) as Array<string>;
 
-      if (index < keyMap.length -1){
-        acc += '&';
+      if (keyMap.length < 1) {
+        return base;
       }
-      
-      return acc;
-    }, `${base}?`);
+
+      return keyMap.reduce((acc: string, key: string, index: number)=> {
+        acc += `${key}=${query[key]}`;
+  
+        if (index < keyMap.length -1){
+          acc += '&';
+        }
+        
+        return acc;
+      }, `${base}?`);
+    }
+    return base;
   };
 
-  static callAPIforData = async (query?: object) => {
+  static callAPIforData = async (query?: QueryObject) => {
     return new Promise((resolve, reject)=> {
       let url = DogModel.API_BASE_URL;
 
