@@ -21,7 +21,7 @@ class DataModel implements DataModel {
   updateData = (data: any, page = 0) => {
     data = JSON.parse(data);
     this.currentData = data.message;
-    this.currentMaxPage = Math.floor(this.currentData.length / 10) - 1;
+    this.currentMaxPage = Math.ceil(this.currentData.length / 10) - 1;
 
     return (this.updatePage(page));
   }
@@ -31,6 +31,7 @@ class DataModel implements DataModel {
     page = Math.min(page, this.currentMaxPage);
     let nextPage: number;
     let prevPage: number;
+
 
     if (page < this.currentMaxPage) {
       nextPage = page + 1;
@@ -42,7 +43,7 @@ class DataModel implements DataModel {
 
     const offset = page * NUM_ITEMS_ON_PAGE;
     const pageItems = this.currentData.slice(offset, offset + NUM_ITEMS_ON_PAGE);
-    return {nextPage, pageItems, prevPage};
+    return {nextPage, pageItems, prevPage, totalImages: this.currentData.length};
   }
 };
 

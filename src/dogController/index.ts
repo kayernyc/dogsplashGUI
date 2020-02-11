@@ -41,13 +41,27 @@ class DogController implements DogController {
     this.dogThumbnails(response);
   };
 
-  dogNavigation = (pageItemsCount: number, nextPage?: number, prevPage?: number) => {
+  private labelText = (pageItemsCount: number, totalImages: number, prevPage?: number ): string => {
+    if (totalImages < 1) {
+      return 'no dogs for this breed';
+    }
+
+    if (totalImages === 1) {
+      return 'one dog for this breed';
+    }
+   
+    const startNumber = (prevPage !== undefined ? prevPage + 1 : 0) * 10;
+    const endNumber = startNumber + pageItemsCount;
+    return `${startNumber + 1} - ${endNumber} of ${totalImages} dogs`;
+  };
+
+  dogNavigation = (pageItemsCount: number, nextPage?: number, prevPage?: number, totalImages: number): HTMLElement => {
     const navigation = document.createElement('section');
     navigation.classList.add('dog-navigation', 'flex-container');
 
     const label = document.createElement('div');
     label.classList.add('col-thirds');
-    label.innerHTML = `number of dogs ${pageItemsCount}`;
+    label.innerHTML = this.labelText(pageItemsCount, totalImages, prevPage, );
     navigation.append(label);
 
     if (prevPage !== undefined) {
@@ -64,7 +78,7 @@ class DogController implements DogController {
   }
   
   dogThumbnails = (response: any) => {
-    const { pageItems, prevPage, nextPage} = response.data;
+    const { pageItems, prevPage, nextPage, totalImages} = response.data;
   
     this.dogContainer.innerHTML = '';
     this.dogContainer.innerHTML = `<section class="dog-thumbnails flex-container">${pageItems.reduce((acc: string, url: string) => {
@@ -79,7 +93,7 @@ class DogController implements DogController {
         element.addEventListener('click', this.modalOpen);
       });
   
-    this.dogContainer.prepend(this.dogNavigation(allImages.length, nextPage, prevPage));
+    this.dogContainer.prepend(this.dogNavigation(allImages.length, nextPage, prevPage, totalImages));
   };
 }
 
