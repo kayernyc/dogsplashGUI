@@ -1,4 +1,4 @@
-import DogModel from '../dogModel';
+import DogModel, {DogAPIResponse, QueryObjectDogImages} from '../dogModel';
 
 interface DogController {
   dogContainer: HTMLElement;
@@ -26,7 +26,7 @@ class DogController implements DogController {
     this.dogModal.innerHTML = '';
   };
 
-  private paginationButton = (value: number, title: string) => {
+  private paginationButton = (value: number, title: string): HTMLButtonElement => {
     const button = document.createElement('button');
     button.classList.add('col-thirds');
     button.setAttribute('value', `${value}`);
@@ -37,7 +37,7 @@ class DogController implements DogController {
 
   private getPage = async (event: MouseEvent) => {
     const button: HTMLButtonElement = event.target as HTMLButtonElement;
-    const response = await DogModel.callAPIforData({page: parseInt(button.value)});
+    const response: DogAPIResponse = await DogModel.callAPIforData({page: parseInt(button.value)});
     this.dogThumbnails(response);
   };
 
@@ -55,7 +55,7 @@ class DogController implements DogController {
     return `${startNumber + 1} - ${endNumber} of ${totalImages} dogs`;
   };
 
-  dogNavigation = (pageItemsCount: number, nextPage?: number, prevPage?: number, totalImages: number): HTMLElement => {
+  dogNavigation = (pageItemsCount: number, totalImages: number, nextPage?: number, prevPage?: number): HTMLElement => {
     const navigation = document.createElement('section');
     navigation.classList.add('dog-navigation', 'flex-container');
 
@@ -77,8 +77,9 @@ class DogController implements DogController {
     return navigation;
   }
   
-  dogThumbnails = (response: any) => {
-    const { pageItems, prevPage, nextPage, totalImages} = response.data;
+  dogThumbnails = (response: DogAPIResponse) => {
+    // add type guard here to confirm data is QueryObjectDogImages
+    const { pageItems, prevPage, nextPage, totalImages} = response.data as unknown as QueryObjectDogImages;
   
     this.dogContainer.innerHTML = '';
     this.dogContainer.innerHTML = `<section class="dog-thumbnails flex-container">${pageItems.reduce((acc: string, url: string) => {
@@ -93,7 +94,7 @@ class DogController implements DogController {
         element.addEventListener('click', this.modalOpen);
       });
   
-    this.dogContainer.prepend(this.dogNavigation(allImages.length, nextPage, prevPage, totalImages));
+    this.dogContainer.prepend(this.dogNavigation(allImages.length, totalImages, nextPage, prevPage));
   };
 }
 

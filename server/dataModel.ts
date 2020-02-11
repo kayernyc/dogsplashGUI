@@ -1,3 +1,5 @@
+import {DogAPIResponse} from './server';
+
 interface DataModel {
   currentType: string | string[];
   currentPage: number;
@@ -18,8 +20,8 @@ class DataModel implements DataModel {
     this.currentType = type;
   }
 
-  updateData = (data: any, page = 0) => {
-    data = JSON.parse(data);
+  updateData = (response: string, page = 0) => {
+    const data = JSON.parse(response);
     this.currentData = data.message;
     this.currentMaxPage = Math.ceil(this.currentData.length / 10) - 1;
 

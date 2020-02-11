@@ -31,5 +31,6 @@
     "start:client": "parcel src/index.html",
     "start": "concurrently --kill-others-on-fail  \"npm run start:server\" \"sleep 5 && npm run start:client\"",
     "test": "jest"
-  }
+  },
+  "engines" : { "node" : ">=10.0" } 
 }

@@ -2,6 +2,7 @@
 # build artefacts
 dist/*
 coverage/*
+server/bin/*
 # data definition files
 **/*.d.ts
 # 3rd party libs

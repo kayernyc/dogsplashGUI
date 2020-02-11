@@ -6,6 +6,15 @@ const PORT = 3000;
 import { handleRequest } from './routes/clientRequest';
 import { newModelData, Query } from './routes/newModelData';
 import DataModel from './dataModel';
+
+export interface QueryObjectDogTypes {
+  data: string;
+}
+
+export type DogAPIResponse = {
+  [key: string]: string | number | Array<string> | QueryObjectDogTypes | Buffer;
+}
+
 const dataModel = new DataModel();
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -13,8 +22,8 @@ const server = http.createServer(async (req, res) => {
   const parts = url.parse(req.url, true);
   const query: Query = parts.query;
 
-  let result: any;
-  let body: Array<any>;
+  let result: DogAPIResponse | string;
+  let body: Array<DogAPIResponse>;
 
   if (query) {
     const pagedResults = await newModelData(dataModel, query);
@@ -25,12 +34,12 @@ const server = http.createServer(async (req, res) => {
     console.warn(err);
   })
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  .on('data', (chunck: any) => {
+  .on('data', (chunck: Buffer) => {
     const body = [];
     body.push(chunck);
   })
   .on('end', () => {
-    let data: string;
+    let data: string | DogAPIResponse;
     
     if (result !== undefined) {
       data = result;

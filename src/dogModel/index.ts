@@ -1,5 +1,20 @@
 type QueryObject = {
-  [key: string]: string;
+  [key: string]: string | number | QueryObjectDogImages;
+}
+
+export interface QueryObjectDogImages {
+  pageItems?: Array<string>;
+  prevPage?: number;
+  nextPage?: number;
+  totalImages: number;
+}
+
+export interface QueryObjectDogTypes {
+  data: string;
+}
+
+export type DogAPIResponse = {
+  [key: string]: string | number | Array<string> | QueryObjectDogTypes;
 }
 
 class DogModel {
@@ -26,7 +41,7 @@ class DogModel {
     return base;
   };
 
-  static callAPIforData = async (query?: QueryObject) => {
+  static callAPIforData = async (query?: QueryObject): Promise<string | DogAPIResponse> => {
     return new Promise((resolve, reject)=> {
       let url = DogModel.API_BASE_URL;
 
@@ -55,3 +70,4 @@ class DogModel {
 };
 
 export default DogModel;
+

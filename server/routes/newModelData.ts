@@ -1,5 +1,6 @@
 import https from 'https';
 import DataModel from '../dataModel';
+import {DogAPIResponse} from '../server';
 
 export interface Query {
   type?: string;
@@ -10,7 +11,7 @@ export interface Query {
 const API_BASE_URL = 'dog.ceo';
 const API_BASE_PATH = '/api';
 
-export const newModelData = async function (dataModel: DataModel, query: Query) {
+export const newModelData = async function (dataModel: DataModel, query: Query): Promise<DogAPIResponse | string> {
   return new Promise((resolve, reject) => {
     const { list, page, type } = query;
     const isList = list === 'true' ? true : false;
